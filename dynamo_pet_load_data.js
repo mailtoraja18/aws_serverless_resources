@@ -1,12 +1,12 @@
 var AWS = require("aws-sdk");
 
 AWS.config.update({
-  region: "us-east-1"
-  //,endpoint: "http://localhost:8000"
+  region: "us-east-1",
+  endpoint: "http://localhost:8000"
 });
 
 var docClient = new AWS.DynamoDB.DocumentClient();
-var table = "Pet";
+var tableName = "Pet";
 var itemArray = [ 
 {
   "id": 1,
@@ -71,8 +71,7 @@ var itemArray = [
 			  ]
     }   ,
               "status": "available"
-}
-,
+},
 {
   "id": 5,
   "category": "cat",
@@ -88,8 +87,7 @@ var itemArray = [
 			  ]
     },
     "status": "available"  
-}
-,
+},
 {
   "id": 6,
   "category": "cat",
@@ -109,9 +107,8 @@ var itemArray = [
 
 for (var i = itemArray.length - 1; i >= 0; i--) {
 		var params = {
-		    TableName:table,
-		    Item : itemArray[i]
-	
+		    TableName:tableName,
+		    Item : itemArray[i]	
 		};
 		console.log("Adding a new item...");
 		docClient.put(params, function(err, data) {
