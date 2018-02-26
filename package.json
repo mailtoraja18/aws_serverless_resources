@@ -1,0 +1,22 @@
+{
+  "name": "aws_serverless_resources",
+  "version": "1.0.0",
+  "description": "deployable resources for aws serverless resources",
+  "main": "dynamo_pet_create_record.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mailtoraja18/aws_serverless_resources.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mailtoraja18/aws_serverless_resources/issues"
+  },
+  "homepage": "https://github.com/mailtoraja18/aws_serverless_resources#readme"
+}
