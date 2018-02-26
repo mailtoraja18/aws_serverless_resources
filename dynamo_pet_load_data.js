@@ -1,4 +1,5 @@
 var AWS = require("aws-sdk");
+const uuidv4 = require('uuid/v4')
 
 AWS.config.update({
   region: "us-east-1",
@@ -9,7 +10,7 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 var tableName = "Pet";
 var itemArray = [ 
 {
-  "id": 1,
+  "id": uuidv4(),
   "category": "dog",
   "info" : { "name": "doggie duna",
 			 "photoUrls": [
@@ -17,15 +18,14 @@ var itemArray = [
 			  ],
 			  "tags": [
 			    {
-			      "id": 0,
-			      "name": "tag1"
+			   	  "name": "tag1"
 			    }
 			  ]
     } ,
               "status": "available"  
 },
 {
-  "id": 2,
+  "id": uuidv4(),
   "category": "dog",
   "info" : { "name": "doggie juna",
 			 "photoUrls": [
@@ -33,7 +33,6 @@ var itemArray = [
 			  ],
 			  "tags": [
 			    {
-			      "id": 0,
 			      "name": "tag1"
 			    }
 			  ]
@@ -41,7 +40,7 @@ var itemArray = [
               "status": "available"  
 },
 {
-  "id": 3,
+  "id": uuidv4(),
   "category": "dog",
   "info" : { "name": "doggie muna",
 			 "photoUrls": [
@@ -49,7 +48,6 @@ var itemArray = [
 			  ],
 			  "tags": [
 			    {
-			      "id": 0,
 			      "name": "tag1"
 			    }
 			  ]
@@ -57,7 +55,7 @@ var itemArray = [
               "status": "available" 
 },
 {
-  "id": 4,
+  "id": uuidv4(),
   "category": "cat",
   "info" : { "name": "cattie muna",
 			 "photoUrls": [
@@ -65,7 +63,6 @@ var itemArray = [
 			  ],
 			  "tags": [
 			    {
-			      "id": 0,
 			      "name": "tag1"
 			    }
 			  ]
@@ -73,7 +70,7 @@ var itemArray = [
               "status": "available"
 },
 {
-  "id": 5,
+  "id": uuidv4(),
   "category": "cat",
   "info" : { "name": "cattie luna",
 			 "photoUrls": [
@@ -81,7 +78,6 @@ var itemArray = [
 			  ],
 			  "tags": [
 			    {
-			      "id": 0,
 			      "name": "tag1"
 			    }
 			  ]
@@ -89,7 +85,7 @@ var itemArray = [
     "status": "available"  
 },
 {
-  "id": 6,
+  "id": uuidv4(),
   "category": "cat",
   "info" : { "name": "cattie tuna",
 			 "photoUrls": [
@@ -97,7 +93,6 @@ var itemArray = [
 			  ],
 			  "tags": [
 			    {
-			      "id": 0,
 			      "name": "tag1"
 			    }
 			  ]
