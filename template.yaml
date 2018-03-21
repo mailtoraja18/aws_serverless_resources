@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Pet Clinic
+Resources:
+  PetFunctions:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_query_all.handler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pets
+            Method: get
+  PetCreateTableFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_create_table.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /createtable
+            Method: post   
+  PetLoadBulkDataForTesting:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_create_record.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /createrecord
+            Method: post 

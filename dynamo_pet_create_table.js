@@ -1,16 +1,37 @@
 var AWS = require("aws-sdk");
 
-exports.localHandler  = (callback) => {
-    var pet_existing = {
-       "TableName": "Pet"
-    }
+// for server
+exports.handler = (event , context , callback) => {
+    call_create_table(callback);
+};
 
-    //local configuration
+//can be called from local mocha test
+exports.localHandler = (callback) => {
+    console.log("aws config update");
     AWS.config.update({
       region: "us-east-1",
       endpoint: "http://localhost:8000"
-    });
+    }); 
+    call_create_table(callback)
+};
+
+//for sam local call
+exports.samLocalHandler = (event , context , callback) => {
+    console.log("aws config update");
+    AWS.config.update({
+      region: "us-east-1",
+      endpoint: "http://docker.for.mac.localhost:8000/"
+    }); 
+    call_create_table(callback)
+};
+
+
+call_create_table = function (callback) {
+    var pet_existing = {
+       "TableName": "Pet"
+    }
     var dynamodb = new AWS.DynamoDB();
+
     var params_pet_table = {
         TableName : "Pet",
         KeySchema: [       
@@ -57,20 +78,21 @@ exports.localHandler  = (callback) => {
             WriteCapacityUnits: 1
         }
     };
-
     // delete if existing
     dynamodb.deleteTable(pet_existing , function(err,data) {
-        if(data || err.code == "ResourceNotFoundException") {
-            dynamodb.createTable(params_pet_table, function(err, data) {
+        dynamodb.createTable(params_pet_table, function(err, data) {
+            var response = { "isBase64Encoded": false };
             if (err) {
                 console.error("Unable to create table. Error JSON:", JSON.stringify(err, null, 2));
-                callback(null,err);
+                response.statusCode ="500";
+                response.body = "Table creating failed :(";
+                callback(err);
             } else {
                 console.log("Created table. Table description JSON:", JSON.stringify(data, null, 2));
-                callback(data);
+                response.statusCode ="200";
+                response.body = "Table created successfully";
+                callback(null,response);
             }
-            });
-            console.log(data);    
-        }
+        });
     });
 }

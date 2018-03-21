@@ -24,6 +24,22 @@ exports.localHandler = (record,callback) => {
     callLambda_add_new_record(record,callback)
 };
 
+//for sam local call
+exports.samLocalHandler = (event , context , callback) => {
+    console.log("aws config update");
+    AWS.config.update({
+      region: "us-east-1",
+      endpoint: "http://docker.for.mac.localhost:8000/"
+    }); 
+    var record = {};
+    if (event.body !== null && event.body !== undefined) {
+        let body = JSON.parse(event.body)
+        if (body) 
+            record = body;
+            callLambda_add_new_record(record,callback);
+    }
+};
+
 callLambda_add_new_record = function(record,callback) {
 	record.id = uuidv4();
 	var params = {
