@@ -26,16 +26,33 @@ exports.localHandler = (id,category,status,callback) => {
     callLambda_update_status(id,category,status,callback)
 };
 
-callLambda_update_status = function(id,category,status,callback) {
+exports.samLocalHandler = (event , context , callback) => {
+    console.log("aws config update");
+    AWS.config.update({
+      region: "us-east-1",
+      endpoint: "http://192.168.1.10:8000"
+    }); 
+    docClient = new AWS.DynamoDB.DocumentClient();
+    var record = {};
+    if (event.body !== null && event.body !== undefined) {
+        body = JSON.parse(event.body)
+        if (body) 
+            record = body;
+            callLambda_update_status(record,callback);
+    }
+    
+};
+
+callLambda_update_status = function(record,callback) {
     var params = {
         TableName:"Pet",
         Key:{
-            "id": id,
-            "category" : category
+            "id": record.id,
+            "category" : record.category
         },
         UpdateExpression: "set #status = :status",
         ExpressionAttributeValues:{
-            ":status" : status
+            ":status" : record.status
         },
         ExpressionAttributeNames : {
              '#status': "status",

@@ -6,7 +6,7 @@ docClient = new AWS.DynamoDB.DocumentClient();
 exports.handler = (event , context , callback) => {
     var record = {};
     if (event.body !== null && event.body !== undefined) {
-        let body = JSON.parse(event.body)
+        body = JSON.parse(event.body)
         if (body) 
             record = body;
             callLambda_add_new_record(record,callback);
@@ -29,13 +29,14 @@ exports.samLocalHandler = (event , context , callback) => {
     console.log("aws config update");
     AWS.config.update({
       region: "us-east-1",
-      endpoint: "http://docker.for.mac.localhost:8000/"
+      endpoint: "http://192.168.1.10:8000"
     }); 
     var record = {};
     if (event.body !== null && event.body !== undefined) {
-        let body = JSON.parse(event.body)
+        body = JSON.parse(event.body)
         if (body) 
             record = body;
+            docClient = new AWS.DynamoDB.DocumentClient();
             callLambda_add_new_record(record,callback);
     }
 };
@@ -51,13 +52,12 @@ callLambda_add_new_record = function(record,callback) {
         var response = {"isBase64Encoded": false};
 	    if (err) {
             response.statusCode = "500";
-            response.body = err
+            response.body = JSON.stringify(err, null, 2);
 	        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
 	        callback(response);
 	    } else {
 	    	response.statusCode = "200";
-            response.body = data;
-	        console.log("Added item:", JSON.stringify(data, null, 2));
+	        console.log("Added item Successfully !!");
 	        callback(null,response);
 	    }
 	});

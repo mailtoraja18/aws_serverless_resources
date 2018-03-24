@@ -144,7 +144,7 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-  '/pet/{petId}/info':
+  '/pet/info':
     post:
       tags:
         - pet
@@ -156,17 +156,12 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: petId
-          in: path
-          description: Id of pet to return
-          required: true
-          type: integer
         - in: body
           name: body
           description: Pet info object
           required: true
           schema:
-            $ref: '#/definitions/Info'
+            $ref: '#/definitions/Pet'
       responses:
         '405':
           description: Invalid input
@@ -176,7 +171,7 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
-  '/pet/{petId}/status/{status}':
+  '/pet/status':
     post:
       tags:
         - pet
@@ -188,16 +183,12 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: petId
-          in: path
-          description: Id of pet to return
+        - in: body
+          name: body
+          description: Pet Status object
           required: true
-          type: integer
-        - name: status
-          in: path
-          description: status of the pet
-          required: true
-          type: string          
+          schema:
+            $ref: '#/definitions/Status'
       responses:
         '405':
           description: Invalid input
@@ -266,6 +257,12 @@ securityDefinitions:
     name: api_key
     in: header
 definitions:
+  Status:
+    type: string
+    enum:
+          - available
+          - pending
+          - sold
   Tag:
     type: object
     properties:
@@ -285,12 +282,7 @@ definitions:
       info:
         $ref: '#/definitions/Info'
       status:
-        type: string
-        description: pet status in the store
-        enum:
-          - available
-          - pending
-          - sold
+        $ref: '#/definitions/Status'
   Info:
     type: object
     properties:

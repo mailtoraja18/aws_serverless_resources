@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Pet Clinic
+Resources:
+  GetPetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_query_all.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pet
+            Method: get
+  PostPetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_create_record.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pets
+            Method: post
+  GetPetByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_query_by_id.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pet/{petId}
+            Method: get
+  PostPetInfoByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_update_info.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pet/info
+            Method: post                        
+  PostPetStatusByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_update_status.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pet/status
+            Method: post    
+  DeletePetByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_delete_by_id.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pet
+            Method: delete
+  DeletePetByIDFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_find_by_status.samLocalHandler
+      Runtime: nodejs6.10
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pets/status/{status}
+            Method: get  

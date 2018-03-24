@@ -24,7 +24,7 @@ exports.samLocalHandler = (event , context , callback) => {
     console.log("aws config update");
     AWS.config.update({
       region: "us-east-1",
-      endpoint: "http://docker.for.mac.localhost:8000/"
+      endpoint: "http://192.168.1.10:8000"
     }); 
     docClient = new AWS.DynamoDB.DocumentClient();
     callLambda_pet_query_all(callback)
