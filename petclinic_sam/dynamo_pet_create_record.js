@@ -13,17 +13,6 @@ exports.handler = (event , context , callback) => {
     }
 };
 
-//can be called from local
-exports.localHandler = (record,callback) => {
-    console.log("aws config update");    
-    AWS.config.update({
-      region: "us-east-1",
-      endpoint: "http://localhost:8000"
-    });     
-    docClient = new AWS.DynamoDB.DocumentClient();
-    callLambda_add_new_record(record,callback)
-};
-
 //for sam local call
 exports.samLocalHandler = (event , context , callback) => {
     console.log("aws config update");

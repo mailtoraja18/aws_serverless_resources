@@ -3,29 +3,16 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 // for server
 exports.handler = (event , context , callback) => {
-    var id =1;
-    if (event.pathParameters !== null && event.pathParameters !== undefined) {
-        if (event.pathParameters.petId !== undefined && 
-            event.pathParameters.petId !== null && 
-            event.pathParameters.petId !== "") {
-            console.log("Received petId: " + event.pathParameters.petId);
-            id = parseInt(event.pathParameters.petId);
-        }
+    var record = {};
+    if (event.body !== null && event.body !== undefined) {
+        body = JSON.parse(event.body)
+        if (body) 
+            record = body;
+            callLambda_update_info(record,callback);
+            
     }
     callLambda_update_info(id,category,info,callback);
 };
-
-//can be called from local
-exports.localHandler = (id,category,info,callback) => {
-    console.log("aws config update");
-    AWS.config.update({
-      region: "us-east-1",
-      endpoint: "http://localhost:8000"
-    }); 
-    docClient = new AWS.DynamoDB.DocumentClient();
-    callLambda_update_info(id,category,info,callback)
-};
-
 
 exports.samLocalHandler = (event , context , callback) => {
     console.log("aws config update");
@@ -39,8 +26,7 @@ exports.samLocalHandler = (event , context , callback) => {
         body = JSON.parse(event.body)
         if (body) 
             record = body;
-            callLambda_update_info(record,callback);
-            
+            callLambda_update_info(record,callback);            
     }
     
 };

@@ -1,22 +1,9 @@
 var AWS = require("aws-sdk");
-
 var docClient = new AWS.DynamoDB.DocumentClient();
 
 // for server
 exports.handler = (event , context , callback) => {
-    docClient = new AWS.DynamoDB.DocumentClient();
     callLambda_pet_query_all(callback);
-};
-
-//can be called from local
-exports.localHandler = (callback) => {
-    console.log("aws config update");
-    AWS.config.update({
-      region: "us-east-1",
-      endpoint: "http://localhost:8000"
-    }); 
-    docClient = new AWS.DynamoDB.DocumentClient();
-    callLambda_pet_query_all(callback)
 };
 
 //can be called from sam local

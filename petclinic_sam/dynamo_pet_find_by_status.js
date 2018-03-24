@@ -3,26 +3,16 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 // for server
 exports.handler = (event , context , callback) => {
-    var status;
-    if (event.body !== null && event.body !== undefined) {
-        body = JSON.parse(event.body)
-        if (body)
-            status = body;
-            //validate status
-            callLambda_find_by_id(status,callback);
-    }
-    callLambda_find_by_id(status,callback);
-};
-
-//can be called from local
-exports.localHandler = (status,callback) => {
-    console.log("aws config update");
-    AWS.config.update({
-      region: "us-east-1",
-      endpoint: "http://localhost:8000"
-    }); 
-    docClient = new AWS.DynamoDB.DocumentClient();
-    callLambda_find_by_id(status,callback)
+    if (event.pathParameters !== null && event.pathParameters !== undefined) {
+        if (event.pathParameters.status !== undefined && 
+            event.pathParameters.status !== null && 
+            event.pathParameters.status !== "") {
+            console.log("Received status: " + event.pathParameters.status);
+            status = event.pathParameters.status;
+            if(status !== null && status !== undefined && status != "")
+                callLambda_find_by_status(status,callback);
+        }
+    }   
 };
 
 //can be called from local
@@ -32,6 +22,7 @@ exports.samLocalHandler = (event , context , callback) => {
       region: "us-east-1",
       endpoint: "http://192.168.1.10:8000"
     }); 
+    
     docClient = new AWS.DynamoDB.DocumentClient();
     if (event.pathParameters !== null && event.pathParameters !== undefined) {
         if (event.pathParameters.status !== undefined && 
