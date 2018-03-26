@@ -1,0 +1,88 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Pet Clinic
+Resources:
+  DeletePetByIDFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      Events:
+        Inventory:
+          Properties:
+            Method: delete
+            Path: /pets
+          Type: Api
+      Handler: dynamo_pet_delete_by_id.handler
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  GetPetByIDFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      Events:
+        Inventory:
+          Properties:
+            Method: get
+            Path: /pets/{petId}
+          Type: Api
+      Handler: dynamo_pet_query_by_id.handler
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  GetPetFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      Events:
+        Inventory:
+          Properties:
+            Method: get
+            Path: /pets
+          Type: Api
+      Handler: dynamo_pet_query_all.handler
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  GetPetsByStatusFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      Events:
+        Inventory:
+          Properties:
+            Method: get
+            Path: /pets/status/{status}
+          Type: Api
+      Handler: dynamo_pet_find_by_status.handler
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  PostPetFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      Events:
+        Inventory:
+          Properties:
+            Method: post
+            Path: /pets
+          Type: Api
+      Handler: dynamo_pet_create_record.handler
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  PostPetInfoByIDFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      Events:
+        Inventory:
+          Properties:
+            Method: post
+            Path: /pets/info
+          Type: Api
+      Handler: dynamo_pet_update_info.handler
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+  PostPetStatusByIDFunction:
+    Properties:
+      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      Events:
+        Inventory:
+          Properties:
+            Method: post
+            Path: /pets/status
+          Type: Api
+      Handler: dynamo_pet_update_status.handler
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
