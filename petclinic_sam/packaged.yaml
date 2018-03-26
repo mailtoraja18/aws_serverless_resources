@@ -3,7 +3,7 @@ Description: Pet Clinic
 Resources:
   DeletePetByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      CodeUri: s3://xdr56yhn-aws-sam/592522723c9fd4c918ba49f889c1ada0
       Events:
         Inventory:
           Properties:
@@ -11,11 +11,12 @@ Resources:
             Path: /pets
           Type: Api
       Handler: dynamo_pet_delete_by_id.handler
+      Policies: AmazonDynamoDBFullAccess
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
   GetPetByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      CodeUri: s3://xdr56yhn-aws-sam/592522723c9fd4c918ba49f889c1ada0
       Events:
         Inventory:
           Properties:
@@ -23,11 +24,12 @@ Resources:
             Path: /pets/{petId}
           Type: Api
       Handler: dynamo_pet_query_by_id.handler
+      Policies: AmazonDynamoDBFullAccess
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
   GetPetFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      CodeUri: s3://xdr56yhn-aws-sam/592522723c9fd4c918ba49f889c1ada0
       Events:
         Inventory:
           Properties:
@@ -35,11 +37,12 @@ Resources:
             Path: /pets
           Type: Api
       Handler: dynamo_pet_query_all.handler
+      Policies: AmazonDynamoDBFullAccess
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
   GetPetsByStatusFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      CodeUri: s3://xdr56yhn-aws-sam/592522723c9fd4c918ba49f889c1ada0
       Events:
         Inventory:
           Properties:
@@ -47,11 +50,12 @@ Resources:
             Path: /pets/status/{status}
           Type: Api
       Handler: dynamo_pet_find_by_status.handler
+      Policies: AmazonDynamoDBFullAccess
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
   PostPetFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      CodeUri: s3://xdr56yhn-aws-sam/592522723c9fd4c918ba49f889c1ada0
       Events:
         Inventory:
           Properties:
@@ -59,11 +63,12 @@ Resources:
             Path: /pets
           Type: Api
       Handler: dynamo_pet_create_record.handler
+      Policies: AmazonDynamoDBFullAccess
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
   PostPetInfoByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      CodeUri: s3://xdr56yhn-aws-sam/592522723c9fd4c918ba49f889c1ada0
       Events:
         Inventory:
           Properties:
@@ -71,11 +76,12 @@ Resources:
             Path: /pets/info
           Type: Api
       Handler: dynamo_pet_update_info.handler
+      Policies: AmazonDynamoDBFullAccess
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
   PostPetStatusByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/fc36faabd45db3799d636f07d3322bbb
+      CodeUri: s3://xdr56yhn-aws-sam/592522723c9fd4c918ba49f889c1ada0
       Events:
         Inventory:
           Properties:
@@ -83,6 +89,7 @@ Resources:
             Path: /pets/status
           Type: Api
       Handler: dynamo_pet_update_status.handler
+      Policies: AmazonDynamoDBFullAccess
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
 Transform: AWS::Serverless-2016-10-31

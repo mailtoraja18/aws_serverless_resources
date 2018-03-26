@@ -3,8 +3,7 @@ const uuidv4 = require('uuid/v4')
 console.log("aws config update");
 
 AWS.config.update({
-  region: "us-east-1",
-  endpoint: "http://localhost:8000"
+  region: "us-east-1"
 }); 
 
 var docClient = new AWS.DynamoDB.DocumentClient();
