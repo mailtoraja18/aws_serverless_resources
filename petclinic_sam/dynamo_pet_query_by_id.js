@@ -1,28 +1,15 @@
 var AWS = require("aws-sdk");
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-// for server
-exports.handler = (event , context , callback) => {
-    var id = "";
-    if (event.pathParameters !== null && event.pathParameters !== undefined) {
-        if (event.pathParameters.petId !== undefined && 
-            event.pathParameters.petId !== null && 
-            event.pathParameters.petId !== "") {
-            console.log("Received petId: " + event.pathParameters.petId);
-            id = event.pathParameters.petId;
-            if(id !== null && id !== undefined && id != "")
-                callLambda_query_by_id(id,callback);
-        }
-    }    
-};
-
 //can be called from local
-exports.samLocalHandler = (event , context , callback) => {
-    console.log("aws config update");
-    AWS.config.update({
-      region: "us-east-1",
-      endpoint: "http://192.168.1.10:8000"
-    }); 
+exports.handler = (event , context , callback) => {
+    if(process.env.AWS_SAM_LOCAL) {
+        console.log("aws config update sam local !!");
+        AWS.config.update({
+          region: "us-east-1",
+          endpoint: "http://192.168.1.10:8000"
+        });     
+    }
     docClient = new AWS.DynamoDB.DocumentClient();
     if (event.pathParameters !== null && event.pathParameters !== undefined) {
         if (event.pathParameters.petId !== undefined && 

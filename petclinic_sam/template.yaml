@@ -5,18 +5,18 @@ Resources:
   GetPetFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: dynamo_pet_query_all.samLocalHandler
+      Handler: dynamo_pet_query_all.handler
       Runtime: nodejs6.10
       Events:
         Inventory:
           Type: Api
           Properties:
-            Path: /pet
+            Path: /pets
             Method: get
   PostPetFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: dynamo_pet_create_record.samLocalHandler
+      Handler: dynamo_pet_create_record.handler
       Runtime: nodejs6.10
       Events:
         Inventory:
@@ -27,51 +27,51 @@ Resources:
   GetPetByIDFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: dynamo_pet_query_by_id.samLocalHandler
+      Handler: dynamo_pet_query_by_id.handler
       Runtime: nodejs6.10
       Events:
         Inventory:
           Type: Api
           Properties:
-            Path: /pet/{petId}
+            Path: /pets/{petId}
             Method: get
   PostPetInfoByIDFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: dynamo_pet_update_info.samLocalHandler
+      Handler: dynamo_pet_update_info.handler
       Runtime: nodejs6.10
       Events:
         Inventory:
           Type: Api
           Properties:
-            Path: /pet/info
+            Path: /pets/info
             Method: post                        
   PostPetStatusByIDFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: dynamo_pet_update_status.samLocalHandler
+      Handler: dynamo_pet_update_status.handler
       Runtime: nodejs6.10
       Events:
         Inventory:
           Type: Api
           Properties:
-            Path: /pet/status
+            Path: /pets/status
             Method: post    
   DeletePetByIDFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: dynamo_pet_delete_by_id.samLocalHandler
+      Handler: dynamo_pet_delete_by_id.handler
       Runtime: nodejs6.10
       Events:
         Inventory:
           Type: Api
           Properties:
-            Path: /pet
+            Path: /pets
             Method: delete
-  DeletePetByIDFunction:
+  GetPetsByStatusFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: dynamo_pet_find_by_status.samLocalHandler
+      Handler: dynamo_pet_find_by_status.handler
       Runtime: nodejs6.10
       Events:
         Inventory:

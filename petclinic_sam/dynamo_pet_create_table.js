@@ -13,26 +13,30 @@ var dynamodb = new AWS.DynamoDB();
 var params_pet_table = {
     TableName : "Pet",
     KeySchema: [       
-        { AttributeName: "id", KeyType: "HASH"},
-        { AttributeName: 'category', KeyType: 'RANGE'} 
+        { AttributeName: "id", KeyType: "HASH"}
     ],
-    LocalSecondaryIndexes: [ // optional (list of LocalSecondaryIndex)
-        { 
-            IndexName: 'status_index',
-            KeySchema: [ 
-                { AttributeName: "id", KeyType: "HASH"},
-                { AttributeName: "status", KeyType: "RANGE" } 
-            ],
-            Projection: { // required
-                ProjectionType: 'ALL'
-            },
-        }],
     GlobalSecondaryIndexes: [ // optional (list of GlobalSecondaryIndex)
         { 
             IndexName: 'status_index_global', 
             KeySchema: [
                 { // Required HASH type attribute
                     AttributeName: 'status',
+                    KeyType: 'HASH',
+                }
+            ],
+            Projection: { // attributes to project into the index
+                ProjectionType: 'ALL'
+            },
+            ProvisionedThroughput: { // throughput to provision to the index
+                ReadCapacityUnits: 1,
+                WriteCapacityUnits: 1,
+            },
+        },
+         { 
+            IndexName: 'category_index_global', 
+            KeySchema: [
+                { // Required HASH type attribute
+                    AttributeName: 'category',
                     KeyType: 'HASH',
                 }
             ],

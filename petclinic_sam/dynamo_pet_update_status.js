@@ -1,23 +1,14 @@
 var AWS = require("aws-sdk");
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-// for server
 exports.handler = (event , context , callback) => {
-    var record = {};
-    if (event.body !== null && event.body !== undefined) {
-        body = JSON.parse(event.body)
-        if (body) 
-            record = body;
-            callLambda_update_status(record,callback);
-    }
-};
-
-exports.samLocalHandler = (event , context , callback) => {
-    console.log("aws config update");
-    AWS.config.update({
-      region: "us-east-1",
-      endpoint: "http://192.168.1.10:8000"
-    }); 
+    if(process.env.AWS_SAM_LOCAL) {
+        console.log("aws config update sam local !!");
+        AWS.config.update({
+          region: "us-east-1",
+          endpoint: "http://192.168.1.10:8000"
+        });     
+    } 
     docClient = new AWS.DynamoDB.DocumentClient();
     var record = {};
     if (event.body !== null && event.body !== undefined) {
@@ -33,8 +24,7 @@ callLambda_update_status = function(record,callback) {
     var params = {
         TableName:"Pet",
         Key:{
-            "id": record.id,
-            "category" : record.category
+            "id": record.id
         },
         UpdateExpression: "set #status = :status",
         ExpressionAttributeValues:{

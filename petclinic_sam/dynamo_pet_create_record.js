@@ -2,24 +2,15 @@ var AWS = require("aws-sdk");
 const uuidv4 = require('uuid/v4')
 docClient = new AWS.DynamoDB.DocumentClient();
 
-// for server
-exports.handler = (event , context , callback) => {
-    var record = {};
-    if (event.body !== null && event.body !== undefined) {
-        body = JSON.parse(event.body)
-        if (body) 
-            record = body;
-            callLambda_add_new_record(record,callback);
-    }
-};
-
 //for sam local call
-exports.samLocalHandler = (event , context , callback) => {
-    console.log("aws config update");
-    AWS.config.update({
-      region: "us-east-1",
-      endpoint: "http://192.168.1.10:8000"
-    }); 
+exports.handler = (event , context , callback) => {   
+    if(process.env.AWS_SAM_LOCAL) {
+        console.log("aws config update sam local !!");
+        AWS.config.update({
+          region: "us-east-1",
+          endpoint: "http://192.168.1.10:8000"
+        });     
+    }
     var record = {};
     if (event.body !== null && event.body !== undefined) {
         body = JSON.parse(event.body)
