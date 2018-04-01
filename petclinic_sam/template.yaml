@@ -86,3 +86,27 @@ Resources:
           Properties:
             Path: /pets/status/{status}
             Method: get  
+  PostUploadPetImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_upload_image_s3.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pets/image/{petId}
+            Method: post
+  GetPetImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: dynamo_pet_get_image_s3.handler
+      Runtime: nodejs6.10
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        Inventory:
+          Type: Api
+          Properties:
+            Path: /pets/image/{petId}
+            Method: get
