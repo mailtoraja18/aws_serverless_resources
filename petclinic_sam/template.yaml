@@ -91,7 +91,14 @@ Resources:
     Properties:
       Handler: dynamo_pet_upload_image_s3.handler
       Runtime: nodejs6.10
-      Policies: AmazonDynamoDBFullAccess
+      Policies: 
+        - AmazonDynamoDBFullAccess
+        - Version: '2012-10-17' # Policy Document
+          Statement:
+           - Effect: Allow
+             Action:
+               - s3:*
+             Resource: 'arn:aws:s3:::xdr56yhn-aws-sam-petclinic-pics/*'
       Events:
         Inventory:
           Type: Api
@@ -103,7 +110,14 @@ Resources:
     Properties:
       Handler: dynamo_pet_get_image_s3.handler
       Runtime: nodejs6.10
-      Policies: AmazonDynamoDBFullAccess
+      Policies: 
+        - AmazonDynamoDBFullAccess
+        - Version: '2012-10-17' # Policy Document
+          Statement:
+           - Effect: Allow
+             Action:
+               - s3:*
+             Resource: 'arn:aws:s3:::xdr56yhn-aws-sam-petclinic-pics/*'
       Events:
         Inventory:
           Type: Api

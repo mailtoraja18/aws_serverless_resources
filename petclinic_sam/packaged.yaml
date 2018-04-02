@@ -3,7 +3,7 @@ Description: Pet Clinic
 Resources:
   DeletePetByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -16,7 +16,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetPetByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -29,7 +29,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetPetFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -42,7 +42,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetPetImageFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -50,12 +50,19 @@ Resources:
             Path: /pets/image/{petId}
           Type: Api
       Handler: dynamo_pet_get_image_s3.handler
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - Statement:
+        - Action:
+          - s3:*
+          Effect: Allow
+          Resource: arn:aws:s3:::xdr56yhn-aws-sam-petclinic-pics/*
+        Version: '2012-10-17'
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
   GetPetsByStatusFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -68,7 +75,7 @@ Resources:
     Type: AWS::Serverless::Function
   PostPetFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -81,7 +88,7 @@ Resources:
     Type: AWS::Serverless::Function
   PostPetInfoByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -94,7 +101,7 @@ Resources:
     Type: AWS::Serverless::Function
   PostPetStatusByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -107,7 +114,7 @@ Resources:
     Type: AWS::Serverless::Function
   PostUploadPetImageFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/718fa4516af7cc51cbfd0d775c8ca236
+      CodeUri: s3://xdr56yhn-aws-sam/638697ee0d1a8764d8b6b3bc1edd50b2
       Events:
         Inventory:
           Properties:
@@ -115,7 +122,14 @@ Resources:
             Path: /pets/image/{petId}
           Type: Api
       Handler: dynamo_pet_upload_image_s3.handler
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - Statement:
+        - Action:
+          - s3:*
+          Effect: Allow
+          Resource: arn:aws:s3:::xdr56yhn-aws-sam-petclinic-pics/*
+        Version: '2012-10-17'
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
 Transform: AWS::Serverless-2016-10-31
