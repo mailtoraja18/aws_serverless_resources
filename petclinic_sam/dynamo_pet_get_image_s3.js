@@ -33,8 +33,7 @@ exports.handler = (event, context, callback) => {
 
     const params = {
         Key: id,
-        Bucket: 'xdr56yhn-aws-sam-petclinic-pics', // put your bucket name here 
-        ContentEncoding: 'base64'
+        Bucket: 'xdr56yhn-aws-sam-petclinic-pics' // put your bucket name here 
     };
 
     s3.getObject(params, (err, data) => {
