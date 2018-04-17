@@ -198,11 +198,11 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'            
-  '/pet/{petId}/uploadImage':
+  '/pet/{petId}/uploadImage/{number}':
    post:
         tags:
           - pet
-        summary: Updates a pet status
+        summary: upload image of pet
         description: ''
         operationId: uploadImage
         consumes:
@@ -214,6 +214,11 @@ paths:
           - name: petId
             in: path
             description: Id of pet to return
+            required: true
+            type: string
+          - name: number
+            in: path
+            description: Id of the image
             required: true
             type: integer
           - in: formData

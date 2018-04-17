@@ -103,7 +103,7 @@ Resources:
         Inventory:
           Type: Api
           Properties:
-            Path: /pets/image/{petId}
+            Path: /pets/{petId}/imagefile/{fileName}
             Method: post
   GetPetImageFunction:
     Type: AWS::Serverless::Function
@@ -122,5 +122,5 @@ Resources:
         Inventory:
           Type: Api
           Properties:
-            Path: /pets/image/{petId}
+            Path: /pets/{petId}/imagefile/{fileName}
             Method: get

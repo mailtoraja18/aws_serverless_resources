@@ -17,6 +17,7 @@ exports.handler = (event, context, callback) => {
     }
     docClient = new AWS.DynamoDB.DocumentClient();
     var id = null;
+    var fileName = '';
     // fetch the uuid of the pet from the url
     if (event.pathParameters !== null && event.pathParameters !== undefined) {
         if (event.pathParameters.petId !== undefined && 
@@ -24,6 +25,7 @@ exports.handler = (event, context, callback) => {
             event.pathParameters.petId !== "") {
             console.log("Received petId: " + event.pathParameters.petId);
             id = event.pathParameters.petId;
+            fileName = event.pathParameters.fileName;
         }
     }  
 
@@ -47,15 +49,15 @@ exports.handler = (event, context, callback) => {
     if (fileBuffer.length < 500000 && imageTypes.includes(fileTypeInfo.mime)) {
 
         // upload it to s3 with unix timestamp as a file name
-        const fileName = `${Math.floor(new Date() / 1000)}.${fileTypeInfo.ext}`;
+        const key = `${id}/${fileName}.${fileTypeInfo.ext}`;
 
-        const bucket = process.env.BUCKET;
         const params = {
             Body: fileBuffer,
-            Key: id,
+            Key: key,
             Bucket: 'xdr56yhn-aws-sam-petclinic-pics', // put your bucket name here 
             ContentEncoding: 'base64',
-            ContentType: fileTypeInfo.mime
+            ContentType: fileTypeInfo.mime,
+            Tagging: `id=${id}`
         };
 
         s3.putObject(params, (err, data) => {

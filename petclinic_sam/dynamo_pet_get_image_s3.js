@@ -11,6 +11,7 @@ exports.handler = (event, context, callback) => {
     }
     docClient = new AWS.DynamoDB.DocumentClient();
     var id = null;
+    var fileName = 0;
     // fetch the uuid of the pet from the url
     if (event.pathParameters !== null && event.pathParameters !== undefined) {
         if (event.pathParameters.petId !== undefined && 
@@ -18,6 +19,7 @@ exports.handler = (event, context, callback) => {
             event.pathParameters.petId !== "") {
             console.log("Received petId: " + event.pathParameters.petId);
             id = event.pathParameters.petId;
+            fileName = event.pathParameters.fileName;
         }
     }  
 
@@ -30,9 +32,10 @@ exports.handler = (event, context, callback) => {
     }
 
     //TODO: check if the image is already tehre
+    const key = `${id}/${fileName}`;
 
     const params = {
-        Key: id,
+        Key: key,
         Bucket: 'xdr56yhn-aws-sam-petclinic-pics' // put your bucket name here 
     };
 

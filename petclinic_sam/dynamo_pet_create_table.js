@@ -3,10 +3,10 @@ var pet_existing = {
    "TableName": "Pet"
 }
 // this script is running outside docker
-// comment the end point when running for non local dynamo db
+// comment the end point ONLY when running for non local dynamo db
 AWS.config.update({
       region: "us-east-1",
-      endpoint: "http://localhost:8000"
+      //endpoint: "http://localhost:8000"
 });   
 
 var dynamodb = new AWS.DynamoDB();
