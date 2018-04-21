@@ -1,9 +1,9 @@
-AWSTemplateFormatVersion: '2010-09-09'
+654AWSTemplateFormatVersion: '2010-09-09'
 Description: Pet Clinic
 Resources:
   DeletePetByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:
@@ -16,7 +16,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetPetByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:
@@ -29,7 +29,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetPetFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:
@@ -42,7 +42,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetPetImageFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:
@@ -62,7 +62,7 @@ Resources:
     Type: AWS::Serverless::Function
   GetPetsByStatusFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:
@@ -73,9 +73,15 @@ Resources:
       Policies: AmazonDynamoDBFullAccess
       Runtime: nodejs6.10
     Type: AWS::Serverless::Function
+  MyApi:
+    Properties:
+      Cors:
+        AllowOrigin: '''localhost:4200'
+      StageName: Prod
+    Type: AWS::Serverless::Api
   PostPetFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:
@@ -88,7 +94,7 @@ Resources:
     Type: AWS::Serverless::Function
   PostPetInfoByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:
@@ -101,7 +107,7 @@ Resources:
     Type: AWS::Serverless::Function
   PostPetStatusByIDFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:
@@ -114,7 +120,7 @@ Resources:
     Type: AWS::Serverless::Function
   PostUploadPetImageFunction:
     Properties:
-      CodeUri: s3://xdr56yhn-aws-sam/1e974d3c280897c2d353feacad9a3a44
+      CodeUri: s3://xdr56yhn-aws-sam/496f65ffe2c4866117c53cc660766455
       Events:
         Inventory:
           Properties:

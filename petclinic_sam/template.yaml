@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion : '2010-09-09'
+654AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Pet Clinic
 Resources:
@@ -48,7 +48,7 @@ Resources:
         Inventory:
           Type: Api
           Properties:
-            Path: /pets/info
+            Path: /pets/{petId}/info
             Method: post                        
   PostPetStatusByIDFunction:
     Type: AWS::Serverless::Function
@@ -60,7 +60,7 @@ Resources:
         Inventory:
           Type: Api
           Properties:
-            Path: /pets/status
+            Path: /pets/{petId}/status
             Method: post    
   DeletePetByIDFunction:
     Type: AWS::Serverless::Function
@@ -72,7 +72,7 @@ Resources:
         Inventory:
           Type: Api
           Properties:
-            Path: /pets
+            Path: /pets/{petId}
             Method: delete
   GetPetsByStatusFunction:
     Type: AWS::Serverless::Function
@@ -85,7 +85,7 @@ Resources:
           Type: Api
           Properties:
             Path: /pets/status/{status}
-            Method: get  
+            Method: get
   PostUploadPetImageFunction:
     Type: AWS::Serverless::Function
     Properties:

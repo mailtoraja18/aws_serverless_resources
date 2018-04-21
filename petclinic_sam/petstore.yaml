@@ -1,10 +1,6 @@
 swagger: '2.0'
 info:
-  description: >-
-    This is a sample server Petstore server.  You can find out more about    
-    Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net,
-    #swagger](http://swagger.io/irc/).      For this sample, you can use the api
-    key `special-key` to test the authorization     filters.
+  description: >- My Pet Store
   version: 1.0.0
   title: Swagger Petstore
   termsOfService: 'http://swagger.io/terms/'
@@ -22,15 +18,25 @@ tags:
       description: Find out more
       url: 'http://swagger.io'
 schemes:
-  - http
+  - https
 paths:
-  /pet:
+  /pets:
+    get:
+      summary: get all pets from db
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
     post:
-      tags:
-        - pet
-      summary: Add a new pet to the store
-      description: ''
-      operationId: addPet
+      summary: create a new pet
       consumes:
         - application/json
       produces:
@@ -43,37 +49,52 @@ paths:
           schema:
             $ref: '#/definitions/Pet'
       responses:
-        '405':
-          description: Invalid input
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  /pet/findByStatus:
+        '200':
+          description: OK
+        '401':
+          description: Not authenticated
+        '403':
+          description: Access token does not have the required scope
+  /pets/status/{status}:
     get:
-      tags:
-        - pet
-      summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
-      operationId: findPetsByStatus
+      summary: get all pets from db
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: status
-          in: query
-          description: Status values that need to be considered for filter
+        - in: path
+          name: status   # Note the name is the same as in the path
           required: true
-          type: array
-          items:
-            type: string
-            enum:
-              - available
-              - pending
-              - sold
-            default: available
-          collectionFormat: multi
+          type: string
+          minimum: 1
+          description: The status of pet.
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+
+  /pets/{petId}:
+    get:
+      tags:
+        - pet
+      summary: Finds a Pet by uuid
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findPetById
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
       responses:
         '200':
           description: successful operation
@@ -82,69 +103,25 @@ paths:
             items:
               $ref: '#/definitions/Pet'
         '400':
-          description: Invalid status value
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  '/pet/{petId}':
-    get:
-      tags:
-        - pet
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: getPetById
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to return
-          required: true
-          type: integer
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/Pet'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-      security:
-        - api_key: []
+          description: Invalid id value
     delete:
-      tags:
-        - pet
-      summary: Deletes a pet
-      description: ''
-      operationId: deletePet
+      summary: delete by pet id
+      description: delete by pet id
       consumes:
         - application/json
       produces:
         - application/json
       parameters:
-        - name: api_key
-          in: header
-          required: false
-          type: string
-        - name: petId
-          in: path
-          description: Pet id to delete
+        - in: path
+          name: petId   # Note the name is the same as in the path
           required: true
-          type: integer
+          type: string
+          minimum: 1
+          description: The UUID of pet.
       responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  '/pet/info':
+        200:
+          description: OK
+  /pets/{petId}/info:
     post:
       tags:
         - pet
@@ -156,6 +133,12 @@ paths:
       produces:
         - application/json
       parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
         - in: body
           name: body
           description: Pet info object
@@ -166,12 +149,8 @@ paths:
         '405':
           description: Invalid input
         '200':
-          description: successful operation  
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  '/pet/status':
+          description: successful operation
+  /pets/{petId}/status:
     post:
       tags:
         - pet
@@ -183,6 +162,12 @@ paths:
       produces:
         - application/json
       parameters:
+        - in: path
+          name: petId   # Note the name is the same as in the path
+          required: true
+          type: string
+          minimum: 1
+          description: The UUID of pet.
         - in: body
           name: body
           description: Pet Status object
@@ -193,12 +178,46 @@ paths:
         '405':
           description: Invalid input
         '200':
-          description: successful operation  
+          description: successful operation
       security:
         - petstore_auth:
             - 'write:pets'
-            - 'read:pets'            
-  '/pet/{petId}/uploadImage/{number}':
+            - 'read:pets'
+  /pet/{petId}/imagefile/{fileName}:
+   get:
+        tags:
+          - pet
+        summary: get image of pet
+        description: ''
+        operationId: getImage
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: petId   # Note the name is the same as in the path
+            required: true
+            type: string
+            minimum: 1
+            description: The UUID of pet.
+          - in: path
+            name: fileName   # Note the name is the same as in the path
+            required: true
+            type: string
+            minimum: 1
+            description: The fileName of the image to be stored.
+          - in: body
+            name: body
+            description: Pet Image object with base64 string image
+            required: true
+            schema:
+              $ref: '#/definitions/Image'
+        responses:
+          '405':
+            description: Invalid input
+          '200':
+            description: successful operation
    post:
         tags:
           - pet
@@ -207,48 +226,32 @@ paths:
         operationId: uploadImage
         consumes:
           - application/json
-          - multipart/form-data
         produces:
           - application/json
         parameters:
-          - name: petId
-            in: path
-            description: Id of pet to return
+          - in: path
+            name: petId   # Note the name is the same as in the path
             required: true
             type: string
-          - name: number
-            in: path
-            description: Id of the image
+            minimum: 1
+            description: The UUID of pet.
+          - in: path
+            name: fileName   # Note the name is the same as in the path
             required: true
-            type: integer
-          - in: formData
-            name: upfile
-            type: file
-            description: The file to upload.
+            type: string
+            minimum: 1
+            description: The fileName of the image to be stored.
+          - in: body
+            name: body
+            description: Pet Image object with base64 string image
+            required: true
+            schema:
+              $ref: '#/definitions/Image'
         responses:
           '405':
             description: Invalid input
           '200':
-            description: successful operation  
-  /pet/inventory:
-    get:
-      tags:
-        - pet
-      summary: Returns pet inventories by status
-      description: Returns a map of status codes to quantities
-      operationId: getInventory
-      produces:
-        - application/json
-      parameters: []
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Pet'
-      security:
-        - api_key: []
+            description: successful operation
 securityDefinitions:
   petstore_auth:
     type: oauth2
@@ -288,6 +291,19 @@ definitions:
         $ref: '#/definitions/Info'
       status:
         $ref: '#/definitions/Status'
+      zip:
+        type: string
+      contact:
+        $ref: '#/definitions/Contact'
+  Contact:
+    type: object
+    properties:
+      phone:
+        type: string
+      email:
+        type: string
+      address:
+        type: string
   Info:
     type: object
     properties:
@@ -301,6 +317,12 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Tag'
+  Image:
+    type: object
+    properties:
+      image:
+        type: string
+
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
